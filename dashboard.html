@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Dashboard</title>
+<style>
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0}
+.mySlides {display: none}
+
+#slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+  top: 200px;
+}
+
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+.text {
+  color: #ffff;
+  font-size: 40px;
+  padding: 8px 12px;
+  display: flex;
+  bottom: 8px;
+  width: 100%;
+  height: 250px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background: #ff5a60;
+}
+
+.numbertext {
+  color: #ffff;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+.active:hover {
+  background-color: #717171;
+}
+
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+.dropdown {
+  color: #ffff;
+  font-size: 15px;
+  padding: 20px;
+  display: block;
+  top: 70px;
+  width: 20%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0);
+  text-align: center;
+  background: #ff5a60;
+  position: relative;
+  margin: auto;
+  cursor: pointer;
+}
+
+.dropdown-content {
+  left: 0;
+   display: none; 
+  position: absolute;
+  min-width: 288px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  color: #ff5a60;
+  top: 60px;
+  text-align: center;
+  background: #ff5a6047;
+  height: 105px;
+  overflow: scroll;
+}
+
+.dropdown-div {
+  border-bottom: 2px solid #ffff;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+#nav{
+  padding: 15px;
+  background: #ff5a6047;
+  color: #ff5a60;
+  font-weight: bold;
+  text-align: right;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+}
+
+#finish{
+  text-align: center;
+  position: absolute;
+  margin-left: 40%;
+  color: #ff5a60;
+  padding: 15px;
+  margin-top: 300px;
+  width: 20%;
+  background: #ffd1d3;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+#overlay {
+  width: 100%;
+  background: #000000b3;
+  height: 100%;
+  position: fixed;
+  z-index: 9999;
+  display: none;
+  color: white;
+  font-size: 20px;
+  text-align: center;
+  padding-top: 25%;
+}
+</style>
+</head>
+<body>
+<div id="overlay" onclick="style='display: none;'"></div>
+<div id="nav">
+  <span><i>Welcome</i></span>
+</div>
+
+<div class="dropdown">
+  <span>Select slides</span>
+  <div class="dropdown-content" id="select">
+  </div>
+</div>
+
+<div id="slideshow-container">
+  <div class="mySlides fade">
+    <div class="text">Please select slide number</div>
+  </div>
+</div>
+
+<div id="finish" onclick="overlay()">Finish</div>
+
+<script>
+  var slectedNums = []
+  var words = ['', 'ONE','TWO','THREE','FOUR', 'FIVE','SIX','SEVEN','EIGHT','NINE','TEN','ELEVEN','TWELVE','THIRTEEN','FOURTEEN','FIFTEEN','SIXTEEN','SEVENTEEN','EIGHTEEN','NINETEEN', 'TWENTY'];
+  var slideIndex = 1;
+  
+  showSlides(slideIndex);
+
+  function plusSlides(n) {
+    showSlides(slideIndex += n);
+  };
+
+  function currentSlide(n) {
+    showSlides(slideIndex = n);
+  };
+
+  function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+    }
+    slides[slideIndex-1].style.display = "block";
+  };
+
+  window.onload = function() {
+    let uid = localStorage.getItem("username");
+    if (uid != "shaadi") {
+      window.location.replace("login.html");
+    }
+    var node = document.getElementById("select");
+    var option = ""
+    for (let i=1; i<=20; i++) {
+      option += '<div class="dropdown-div">'+i+'</div>'
+    }
+    node.innerHTML = option
+  };
+
+  document.body.addEventListener('click',function(e){
+    if(e.target && e.target.className== 'dropdown-div'){
+      createSlides(e.target.textContent)
+        slectedNums.push(e.target.textContent)
+      }
+   });
+
+  function createSlides(n) {
+    var slideP = document.getElementById("slideshow-container");
+    var slide = ""
+    for (let i=1; i<=n; i++) {
+      slide += '<div class="mySlides fade"><div class="numbertext">'+i+'/'+n+'</div><div class="text">'+words[i]+'</div></div>'
+    }
+    slide +='<a class="prev" onclick="plusSlides(-1)">&#10094;</a><a class="next" onclick="plusSlides(1)">&#10095;</a>'
+    slideP.innerHTML = slide;
+    showSlides(slideIndex);
+  }
+
+  function overlay() {
+    document.getElementById("overlay").style.display = "block";
+    var spanList = '<div>You have seleted</div>'
+    if (slectedNums.length > 0) {
+      for (i in slectedNums) {
+        spanList += ' <span>'+slectedNums[i]+'</span> '
+      }
+    } else {
+      spanList += '<span>No number</span>'
+    }
+    document.getElementById("overlay").innerHTML = spanList
+  }
+</script>
+
+</body>
+</html>

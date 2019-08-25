@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>
+Login
+</title>
+<style>
+  #formMain{
+    color: #ffff;
+    padding: 50px 10px;
+    width: 30%;
+    text-align: center;
+    background: #ff5a60;
+    margin: auto;
+    margin-top: 20%;
+  }
+  .inputbx{
+    padding: 10px;
+    border: none;
+    margin: 10px;
+    border-radius: 2px;
+  }
+  .btn{
+    padding: 10px 30px;
+  }
+</style>
+</head>
+<body>
+<form name="login" id="formMain">
+<div>
+  Username<input type="text" name="userid" class="inputbx" />
+</div>
+<div>
+Password<input type="password" name="pswrd" class="inputbx"/>
+  
+</div>
+<input type="button" onclick="check(this.form)" value="Login" class="inputbx btn"/>
+<input type="reset" value="Cancel" class="inputbx btn"/>
+</form>
+<script language="javascript">
+function check(form)
+{
+ if(form.userid.value == "shaadi" && form.pswrd.value == "123")
+  {
+    window.location.replace('dashboard.html')
+    form.userid.value = ""
+    form.pswrd.value = ""
+    localStorage.setItem("username", "shaadi");
+  }
+ else
+ {
+   alert("Error Password or Username")
+  }
+}
+</script>
+</body>
+</html>
